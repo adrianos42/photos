@@ -1,0 +1,29 @@
+library collections
+
+interface Photos {
+    directory: option[DirectoryEntry],
+    image: (id: uuid) -> option[bytes],
+    remove_image: (id: uuid) -> uuid,
+    id: uuid,
+}
+
+type Directory {
+    Picture: PictureEntry,
+    Directory: DirectoryEntry,
+}
+
+struct PictureEntry {
+    id: uuid,
+    name: string,
+    description: string,
+    path: string,
+    mime: string,
+}
+
+struct DirectoryEntry {
+    id: uuid,
+    items: Directory[],
+    description: string,
+    name: string,
+    path: string,
+}

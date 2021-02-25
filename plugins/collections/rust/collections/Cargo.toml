@@ -1,0 +1,16 @@
+[package]
+name = "collections"
+version = "0.1.0"
+authors = ["Adriano Souza <adriano.souza113@gmail.com>"]
+edition = "2018"
+publish = false
+
+[dependencies]
+idl_types = { path = "idl_types" }
+rand = "0.7"
+directories = "2.0"
+uuid = { version = "0.8", features = ["v4"] }
+tree_magic = "0.2"
+
+[workspace]
+members = ["idl_types"]

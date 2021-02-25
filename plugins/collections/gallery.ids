@@ -1,0 +1,33 @@
+package collections {
+    version: 1.0,
+    idl_version: 0.1,
+}
+
+client Main {
+    language: "dart",
+    layers: [Flutter],
+    servers: [MainServer],
+}
+
+server MainServer {
+    layers: [RustAsync, FFI],
+    language: "rust",
+    path: "/home/adriano/repos/gallery/plugins/rust/collections/",
+}
+
+layer Flutter {
+    endpoint: true,
+    languages: ["dart"],
+    client_only: true,
+}
+
+layer FFI {
+    endpoint: false,
+    client_only: false,
+}
+
+layer RustAsync {
+    endpoint: true,
+    client_only: true,
+    languages: ["rust"],
+}

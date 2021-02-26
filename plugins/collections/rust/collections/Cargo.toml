@@ -10,6 +10,8 @@ idl_types = { path = "idl_types" }
 rand = "0.7"
 directories = "2.0"
 uuid = { version = "0.8", features = ["v4"] }
+crossbeam-channel = "0.4.0"
+notify = "5.0.0-pre.6"
 tree_magic = "0.2"
 
 [workspace]

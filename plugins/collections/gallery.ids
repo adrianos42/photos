@@ -12,7 +12,6 @@ client Main {
 server MainServer {
     layers: [RustAsync, FFI],
     language: "rust",
-    path: "/home/adriano/repos/gallery/plugins/rust/collections/",
 }
 
 layer Flutter {

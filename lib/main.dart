@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:desktop/desktop.dart';
 import 'package:flutter/foundation.dart';
@@ -23,7 +24,7 @@ class _DocAppState extends State<DocApp> {
 
   late Photos photos;
 
-  DirectoryEntry? directoryEntry;
+  Stream<DirectoryEntry>? directoryEntryStream;
 
   @override
   void initState() {
@@ -37,13 +38,28 @@ class _DocAppState extends State<DocApp> {
     super.dispose();
   }
 
+  int countPictures(DirectoryEntry entry) {
+    var count = 0;
+
+    for (var item in entry.items) {
+      switch (item.variant) {
+        case Directory.directory:
+          count += countPictures(item.value as DirectoryEntry);
+          break;
+        case Directory.picture:
+          count += 1;
+          break;
+        default:
+          break;
+      }
+    }
+
+    return count;
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (directoryEntry == null) {
-      photos.directory().then((value) {
-        setState(() => directoryEntry = value!);
-      });
-    }
+    directoryEntryStream ??= photos.directory();
 
     return DesktopApp(
       theme: themeData,
@@ -51,45 +67,76 @@ class _DocAppState extends State<DocApp> {
         builder: (context) => Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(top: 8.0),
-          child: directoryEntry != null
-              ? Breadcrumb(
-                  initialRoute: 'Pictures/',
-                  leading: Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: Icon(
-                      Icons.collections,
-                      color: Theme.of(context).colorScheme.primary.toColor(),
-                      size: 22.0,
-                    ),
-                  ),
-                  trailing: Row(
-                    children: [
-                      ThemeToggle(
-                        onPressed: () => setState(
-                            () => _themeData = Theme.invertedThemeOf(context)),
-                      ),
-                    ],
-                  ),
-                  routeBuilder: (context, settings) {
-                    switch (settings.name) {
-                      case 'Pictures/':
-                        return DesktopPageRoute(
-                          fullscreenDialog: false,
-                          builder: (context) =>
-                              GalleryPage(photos, directoryEntry!),
-                          settings: RouteSettings(name: settings.name),
-                        );
-                      default:
-                        final dirEntry = settings.arguments as DirectoryEntry;
-                        return DesktopPageRoute(
-                          fullscreenDialog: false,
-                          builder: (context) => GalleryPage(photos, dirEntry),
-                          settings: RouteSettings(name: dirEntry.name),
-                        );
-                    }
-                  },
-                )
-              : Container(),
+          child: StreamBuilder<DirectoryEntry>(
+            stream: directoryEntryStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final directoryEntry = snapshot.data!;
+                final picsNumber = countPictures(directoryEntry);
+                return picsNumber > 0
+                    ? Breadcrumb(
+                        initialRoute: 'Pictures/',
+                        leading: Padding(
+                          padding: EdgeInsets.only(left: 16.0),
+                          child: Icon(
+                            Icons.collections,
+                            color:
+                                Theme.of(context).colorScheme.primary.toColor(),
+                            size: 22.0,
+                          ),
+                        ),
+                        trailing: Row(
+                          children: [
+                            ThemeToggle(
+                              onPressed: () => setState(() =>
+                                  _themeData = Theme.invertedThemeOf(context)),
+                            ),
+                          ],
+                        ),
+                        routeBuilder: (context, settings) {
+                          switch (settings.name) {
+                            case 'Pictures/':
+                              return DesktopPageRoute(
+                                fullscreenDialog: false,
+                                builder: (context) =>
+                                    GalleryPage(photos, directoryEntry),
+                                settings: RouteSettings(name: settings.name),
+                              );
+                            default:
+                              final dirEntry =
+                                  settings.arguments as DirectoryEntry;
+                              return DesktopPageRoute(
+                                fullscreenDialog: false,
+                                builder: (context) =>
+                                    GalleryPage(photos, dirEntry),
+                                settings: RouteSettings(name: dirEntry.name),
+                              );
+                          }
+                        },
+                      )
+                    : Container(
+                        alignment: Alignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/photo_library-black-90dp.png',
+                              width: 100.0,
+                            ),
+                            Text('Pictures folder is empty',
+                                style: Theme.of(context).textTheme.title),
+                          ],
+                        ),
+                      );
+              }
+
+              return Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
         ),
       ),
     );

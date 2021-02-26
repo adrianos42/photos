@@ -1,8 +1,8 @@
 library collections
 
 interface Photos {
-    directory: option[DirectoryEntry],
-    image: (id: uuid) -> option[bytes],
+    directory: stream[DirectoryEntry],
+    image: (id: uuid) -> stream[bytes],
     remove_image: (id: uuid) -> uuid,
     id: uuid,
 }
@@ -23,6 +23,7 @@ struct PictureEntry {
 struct DirectoryEntry {
     id: uuid,
     items: Directory[],
+    thumbnail: option[PictureEntry],
     description: string,
     name: string,
     path: string,

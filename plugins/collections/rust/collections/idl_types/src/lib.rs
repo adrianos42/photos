@@ -18,6 +18,7 @@ pub struct PictureEntry {
 pub struct DirectoryEntry {
     pub id: Uuid,
     pub items: Vec<crate::Directory>,
+    pub thumbnail: Option<crate::PictureEntry>,
     pub description: String,
     pub name: String,
     pub path: String,

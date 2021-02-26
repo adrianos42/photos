@@ -10,7 +10,6 @@ The back-end is written with rust.
 **Requires the [native idl](https://github.com/adrianos42/native_idl) command!**
 
 ```sh
-cd plugins
 idl client --path plugins/collections
 flutter build linux
 ```

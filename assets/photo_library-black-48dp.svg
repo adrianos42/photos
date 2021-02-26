@@ -15,7 +15,7 @@
    id="svg6"
    sodipodi:docname="photo_library-black-48dp.svg"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
-   inkscape:export-filename="/home/adriano/repos/gallery/assets/photo_library-black-120dp.png"
+   inkscape:export-filename="/home/adriano/repos/photos/assets/photo_library-black-120dp.png"
    inkscape:export-xdpi="240"
    inkscape:export-ydpi="240">
   <metadata
@@ -44,9 +44,9 @@
      inkscape:window-height="1052"
      id="namedview8"
      showgrid="false"
-     inkscape:zoom="10.842304"
-     inkscape:cx="19.905518"
-     inkscape:cy="31.010305"
+     inkscape:zoom="15.333333"
+     inkscape:cx="21.766202"
+     inkscape:cy="24.705102"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -59,5 +59,7 @@
   <path
      d="M22 18V2H6v16h16zm-11-6l2.03 2.71L16 11l4 5H8l3-4zM2 6v16h16v-2H4V6H2z"
      id="path4"
-     style="fill:#f53d65;fill-opacity:1" />
+     style="fill:#1e92ff;fill-opacity:1"
+     inkscape:export-xdpi="240"
+     inkscape:export-ydpi="240" />
 </svg>

@@ -32,10 +32,10 @@ packages:
   desktop:
     dependency: "direct main"
     description:
-      path: "../desktop/desktop"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: desktop
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1-2.12.0-0"
   ffi:
     dependency: transitive
     description:

@@ -1,10 +1,17 @@
 library collections
 
 interface Photos {
-    directory: stream[DirectoryEntry],
-    image: (id: uuid) -> stream[bytes],
-    remove_image: (id: uuid) -> uuid,
-    id: uuid,
+    pictures_directory: stream[PicturesDirectory],
+    directory: (id: uuid) -> stream[DirectoryEntry],
+    has_pictures: bool,
+    image: (id: uuid) -> option[bytes],
+    image_with_size: (id: uuid, witdh: int, heigth: int) -> stream[bytes],
+    remove_image: (id: uuid),
+}
+
+struct PicturesDirectory {
+    n_pictures: int,
+    directory: DirectoryEntry,
 }
 
 type Directory {
@@ -16,15 +23,15 @@ struct PictureEntry {
     id: uuid,
     name: string,
     description: string,
-    path: string,
     mime: string,
+    width: int,
+    height: int,
 }
 
 struct DirectoryEntry {
     id: uuid,
-    items: Directory[],
-    thumbnail: option[PictureEntry],
-    description: string,
     name: string,
-    path: string,
+    items: Directory[],
+    thumbnail: option[uuid],
+    description: string,
 }

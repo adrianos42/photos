@@ -139,7 +139,7 @@ class _ImagePageState extends State<ImagePage> with TickerProviderStateMixin {
                   return Container(
                     height: constraints.maxHeight,
                     alignment: Alignment.center,
-                    color: Color(0x0),
+                    color: Color(0xFF000000),
                     child: FutureBuilder<Uint8List?>(
                       future: picFuture,
                       builder: (context, snapshot) {

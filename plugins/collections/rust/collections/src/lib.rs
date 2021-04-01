@@ -1,10 +1,10 @@
-use bytes::BufMut;
+use bytes::{BufMut};
 use crossbeam_channel::{internal::SelectHandle, Receiver, Sender};
 pub use idl_types;
 use idl_types::{idl_impl::PhotosInstance, idl_internal::*};
 
 use std::{
-    io::{BufReader, BufWriter},
+    io::{BufReader, BufWriter,},
     sync::RwLock,
     time::{Duration, Instant},
 };
@@ -662,6 +662,8 @@ fn set_instances_thumbnail(
     }
 }
 
+
+
 fn get_thumbnail_image(path: &Path, width: i64, height: i64) -> Vec<u8> {
     let reader = Reader::open(&path)
         .expect("opening reader")
@@ -670,10 +672,10 @@ fn get_thumbnail_image(path: &Path, width: i64, height: i64) -> Vec<u8> {
 
     let img = reader.decode().expect("decoding");
 
-    let buf = bytes::BytesMut::with_capacity(0x200000);
-    let mut writer = buf.writer();
+    let mut writer = bytes::BytesMut::with_capacity(0x2000);
+    let mut output_writer = writer.writer();
     img.thumbnail(width as u32, height as u32)
         .write_to(&mut writer, ImageFormat::Png)
         .expect("Writing to buffer");
-    writer.into_inner().to_vec()
+    writer
 }
